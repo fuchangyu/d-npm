@@ -1,6 +1,6 @@
 {
   "name": "d-tgz",
-  "version": "1.4.7",
+  "version": "1.5.0",
   "description": "download tgz",
   "bin": {
     "d-tgz": "dist/d-tgz.js"
