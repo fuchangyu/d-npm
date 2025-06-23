@@ -11,5 +11,7 @@
 	"failed": "failed: ",
 	"time": "time: ",
 	"failedDownloadPackage": "Number of package download failures: ",
-	"succeed": "succeed"
+	"succeed": "succeed",
+	"resolvedError": "Dependency '",
+	"resolvedError2": "' resolved is not a valid URL, this dependency has been ignored"
 }

@@ -10,10 +10,10 @@ export async function installPackageFile () {
     fs.removeSync(TEMP_PATH)
   }
 
-  let packageFile: Buffer
+  let packageFile: Record<string, any>
 
   try {
-    packageFile  = fs.readFileSync(PACKAGE_PATH)
+    packageFile  = JSON.parse(fs.readFileSync(PACKAGE_PATH, 'utf-8'))
   } catch {
     spinner.fail(i18n.__('readPackageFileFailed')) // fall
     process.exit(0)
@@ -21,7 +21,10 @@ export async function installPackageFile () {
 
   fs.mkdirSync(TEMP_PATH)
 
-  fs.writeFileSync(TEMP_PACKAGE_PATH, packageFile)
+  fs.writeFileSync(TEMP_PACKAGE_PATH, JSON.stringify({
+    dependencies: packageFile.dependencies || {},
+    devDependencies: packageFile.devDependencies || {},
+  }))
 
   spinner.start(i18n.__('parsingPackageFile'))
 

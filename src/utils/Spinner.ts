@@ -43,7 +43,7 @@ export class Spinner {
     return this
   }
 
-  public fail  (text: string): Spinner  {
+  public fail (text: string): Spinner  {
     this.ora.stop()
     this.ora.fail(chalk.red(text))
     if (this.beingText !== null) {
@@ -52,5 +52,13 @@ export class Spinner {
     return this
   }
 
+  public warn (text: string): Spinner  {
+    this.ora.stop()
+    this.ora.warn(chalk.yellowBright(text))
+    if (this.beingText !== null) {
+      this.ora.start(this.beingText)
+    }
+    return this
+  }
 }
 

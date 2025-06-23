@@ -15,14 +15,20 @@ export function parseLock (lockData: LockData): PackageItem[] {
   if (lockData.packages) {
     for (let key in lockData.packages) {
       const path: string = key.split('node_modules/').at(-1)
-      if (path) {
-        const item = lockData.packages[key]
-        packages.push({
-          name: item.resolved.split('/').pop(),
-          resolved: item.resolved,
-          path: path,
-          v: item.version
-        })
+      const item = lockData.packages[key]
+      if (path && item.resolved) {
+        try {
+          new URL(item.resolved)
+          packages.push({
+            name: item.resolved.split('/').pop(),
+            resolved: item.resolved,
+            path: path,
+            v: item.version
+          })
+        } catch (e) {
+          spinner.warn(i18n.__('resolvedError') + packages.at(-1).name + i18n.__('resolvedError2'))
+        }
+
       }
     }
   } else if (lockData.dependencies) {

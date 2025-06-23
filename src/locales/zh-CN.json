@@ -11,5 +11,7 @@
 	"failed": "失败: ",
 	"time": "耗时: ",
 	"failedDownloadPackage": "依赖下载失败的数量: ",
-	"succeed": "完成"
+	"succeed": "完成",
+	"resolvedError": "依赖项 “",
+	"resolvedError2": "” 的resolved不是一个有效的URL，已忽略改依赖项"
 }
