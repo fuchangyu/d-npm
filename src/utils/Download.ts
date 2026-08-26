@@ -1,8 +1,11 @@
-import { FOLDER_PATH } from "../global";
-import axios from "axios";
-import fs from "fs";
-import download from 'download'
-import { PackageItem } from "../types";
+import path from 'path'
+import axios from 'axios'
+import fs from 'fs'
+import { FOLDER_PATH } from '../global'
+import { PackageItem } from '../types'
+import { downloadTgz } from './downloadFile'
+
+const METADATA_TIMEOUT = 30_000
 
 export class Download {
   private concurrencyNum: number
@@ -17,15 +20,25 @@ export class Download {
     return new Promise((resolve, reject) => {
 
       const action = async () => {
+        const destDir = path.join(FOLDER_PATH, info.path)
+        const tgzPath = path.join(destDir, info.name)
+        const packageJsonPath = path.join(destDir, 'package.json')
+
         try {
-          await download(info.resolved, FOLDER_PATH + '/' + info.path);
+          await downloadTgz(info.resolved, tgzPath, info.integrity)
 
-          const res = await axios.get(info.resolved.split('/-/')[0])
+          const res = await axios.get(info.resolved.split('/-/')[0], {
+            timeout: METADATA_TIMEOUT,
+            validateStatus: (status) => status === 200,
+          })
 
-          fs.writeFileSync(FOLDER_PATH + '/' + info.path + '/package.json', JSON.stringify(res.data))
+          fs.writeFileSync(packageJsonPath, JSON.stringify(res.data))
 
           resolve(info)
         } catch {
+          if (fs.existsSync(tgzPath)) {
+            fs.unlinkSync(tgzPath)
+          }
           reject(info)
         } finally {
           this.downloadingNum -= 1
@@ -48,4 +61,3 @@ export class Download {
     })
   }
 }
-

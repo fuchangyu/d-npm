@@ -7,5 +7,6 @@ export interface PackageItem {
   name: string,
   resolved: string,
   path: string,
-  v: string
+  v: string,
+  integrity?: string
 }

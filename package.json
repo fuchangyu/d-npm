@@ -1,6 +1,6 @@
 {
   "name": "d-tgz",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "download tgz",
   "bin": {
     "d-tgz": "dist/d-tgz.js"
@@ -34,7 +34,6 @@
   "dependencies": {
     "axios": "^0.27.2",
     "commander": "^12.1.0",
-    "download": "^8.0.0",
     "fs-extra": "^11.2.0",
     "i18n": "^0.15.1",
     "node-cmd": "^5.0.0",
